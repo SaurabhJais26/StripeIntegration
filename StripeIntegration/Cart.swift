@@ -25,4 +25,8 @@ class Cart: ObservableObject {
     func addToCart(_ item: Product) {
         items.append(item)
     }
+    
+    func clear() {
+        items = []
+    }
 }

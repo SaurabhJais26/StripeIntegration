@@ -7,39 +7,15 @@
 
 import SwiftUI
 import Stripe
+import StripePaymentSheet
 
 struct CheckoutView: View {
     
     @EnvironmentObject private var cart: Cart
     @State private var message: String = ""
     @State private var isSuccess: Bool = false
-    @State private var paymentMethodParams: STPPaymentMethodParams?
-    let paymentGatewayController = PaymentGatewayController()
-        
-    private func pay() {
-        
-        guard let clientSecret = PaymentConfig.shared.paymentIntentClientSecret else {
-            return
-        }
-        
-        let paymentIntentParams = STPPaymentIntentParams(clientSecret: clientSecret)
-        paymentIntentParams.paymentMethodParams = paymentMethodParams
-        
-        paymentGatewayController.submitPayment(intent: paymentIntentParams) { status, intent, error in
-            
-            switch status {
-                case .failed:
-                    message = "Failed"
-                case .canceled:
-                    message = "Cancelled"
-                case .succeeded:
-                    message = "Your payment has been successfully completed!"
-            }
-            
-        }
-        
-    }
-
+    @State private var paymentSheet: PaymentSheet?
+    
     var body: some View {
         VStack {
             List {
@@ -58,25 +34,46 @@ struct CheckoutView: View {
                     Spacer()
                 }
                 
-                Section {
-                    // Stripe Credit Card TextField Here
-                    STPPaymentCardTextField.Representable.init(paymentMethodParams: $paymentMethodParams)
-                } header: {
-                    Text("Payment Information")
-                }
-                
                 HStack {
                     Spacer()
-                    Button("Pay") {
-                        pay()
-                    }.buttonStyle(.plain)
+                    if let paymentSheet = paymentSheet {
+                        PaymentSheet.PaymentButton(
+                            paymentSheet: paymentSheet,
+                            onCompletion: { result in
+                                switch result {
+                                case .completed:
+                                    message = "Your payment has been successfully completed!"
+                                    isSuccess = true
+                                    cart.clear()
+                                case .canceled:
+                                    message = "Cancelled"
+                                case .failed(let error):
+                                    message = "Failed: \(error.localizedDescription)"
+                                }
+                            }
+                        ) {
+                            Text("Pay")
+                                .bold()
+                                .foregroundColor(.white)
+                                .padding()
+                                .background(Color.blue)
+                                .cornerRadius(10)
+                        }
+                        .buttonStyle(.plain)
+                    } else {
+                        Text("Loading Payment...")
+                            .foregroundColor(.gray)
+                    }
                     Spacer()
                 }
+                .padding(.vertical)
                 
                 Text(message)
                     .font(.headline)
                 
-                
+            }
+            .onAppear {
+                preparePaymentSheet()
             }
             
             NavigationLink(isActive: $isSuccess, destination: {
@@ -85,10 +82,24 @@ struct CheckoutView: View {
                 EmptyView()
             })
             
-            
             .navigationTitle("Checkout")
             
         }
+    }
+    
+    private func preparePaymentSheet() {
+        guard let clientSecret = PaymentConfig.shared.paymentIntentClientSecret else {
+            message = "Error: No client secret found."
+            return
+        }
+        
+        var configuration = PaymentSheet.Configuration()
+        configuration.merchantDisplayName = "Stripe Integration Store"
+        
+        // Set Apple Pay Merchant ID to enable Apple Pay
+        configuration.applePay = .init(merchantId: "merchant.com.astrosageai", merchantCountryCode: "US")
+        
+        self.paymentSheet = PaymentSheet(paymentIntentClientSecret: clientSecret, configuration: configuration)
     }
 }
 

@@ -8,7 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		152CA3962EE0B361008839DA /* .gitignore in Resources */ = {isa = PBXBuildFile; fileRef = 152CA3952EE0B361008839DA /* .gitignore */; };
-		152CA3992EE0BD2E008839DA /* Stripe in Frameworks */ = {isa = PBXBuildFile; productRef = 152CA3982EE0BD2E008839DA /* Stripe */; };
+		7601073C2EE165BF00D55644 /* StripePaymentSheet in Frameworks */ = {isa = PBXBuildFile; productRef = 7601073B2EE165BF00D55644 /* StripePaymentSheet */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -29,7 +29,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				152CA3992EE0BD2E008839DA /* Stripe in Frameworks */,
+				7601073C2EE165BF00D55644 /* StripePaymentSheet in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -73,7 +73,7 @@
 			);
 			name = StripeIntegration;
 			packageProductDependencies = (
-				152CA3982EE0BD2E008839DA /* Stripe */,
+				7601073B2EE165BF00D55644 /* StripePaymentSheet */,
 			);
 			productName = StripeIntegration;
 			productReference = 152CA3872EE0B2C2008839DA /* StripeIntegration.app */;
@@ -104,7 +104,7 @@
 			mainGroup = 152CA37E2EE0B2C2008839DA;
 			minimizedProjectReferenceProxies = 1;
 			packageReferences = (
-				152CA3972EE0BD2E008839DA /* XCRemoteSwiftPackageReference "stripe-ios" */,
+				7601073A2EE165BF00D55644 /* XCRemoteSwiftPackageReference "stripe-ios-spm" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 152CA3882EE0B2C2008839DA /* Products */;
@@ -347,9 +347,9 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
-		152CA3972EE0BD2E008839DA /* XCRemoteSwiftPackageReference "stripe-ios" */ = {
+		7601073A2EE165BF00D55644 /* XCRemoteSwiftPackageReference "stripe-ios-spm" */ = {
 			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/stripe/stripe-ios";
+			repositoryURL = "https://github.com/stripe/stripe-ios-spm";
 			requirement = {
 				kind = upToNextMajorVersion;
 				minimumVersion = 25.2.0;
@@ -358,10 +358,10 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		152CA3982EE0BD2E008839DA /* Stripe */ = {
+		7601073B2EE165BF00D55644 /* StripePaymentSheet */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 152CA3972EE0BD2E008839DA /* XCRemoteSwiftPackageReference "stripe-ios" */;
-			productName = Stripe;
+			package = 7601073A2EE165BF00D55644 /* XCRemoteSwiftPackageReference "stripe-ios-spm" */;
+			productName = StripePaymentSheet;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

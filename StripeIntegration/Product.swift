@@ -19,10 +19,10 @@ extension Product {
     static func all() -> [Product] {
         
         return [
-            Product(photo: "🍎", price: 1),
-            Product(photo: "🍌", price: 2),
-            Product(photo: "🍒", price: 3),
-            Product(photo: "🍉", price: 5),
+            Product(photo: "🍎", price: 100),
+            Product(photo: "🍌", price: 200),
+            Product(photo: "🍒", price: 300),
+            Product(photo: "🍉", price: 500),
         ]
         
     }
